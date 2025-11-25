@@ -1,15 +1,5 @@
 "use client";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-
-// ================================
-//  ALADDIN-STYLE AI CRYPTO TERMINAL
-//  - Top 10 Binance USDT pairs
-//  - Cross-exchange arbitrage (Binance, Bybit, OKX) — HYBRID REST + WS
-//  - Spot + leverage (momentum/mean-rev) ideas
-//  - Lightweight AI prediction model (5–10m horizon)
-//  NOTE: Estimates are naive, before fees/slippage/funding/latency.
-// ================================
-
 const REST_BASE = "https://api.binance.com";
 const WS_BASE = "wss://data-stream.binance.vision/ws"; // Binance public market data only
 
@@ -790,10 +780,11 @@ export default function App() {
       {/* Tabs */}
       <div className="px-3 py-2 border-b border-slate-800/70 bg-[#07090c] flex items-center gap-2 text-xs">
         {[
-          { k: "AI", label: "AI Board" },
-          { k: "Market", label: "Top 10 Market" },
-          { k: "Chart", label: "Chart" },
-        ].map((t) => (
+  { k: "AI" as const, label: "AI Board" },
+  { k: "Market" as const, label: "Top 10 Market" },
+  { k: "Chart" as const, label: "Chart" },
+]
+.map((t) => (
           <Pill key={t.k} active={tab === t.k} onClick={() => setTab(t.k)}>
             {t.label}
           </Pill>
@@ -852,46 +843,7 @@ export default function App() {
         {/* Main */}
         <main className="col-span-9 xl:col-span-10">
           {/* Selected header */}
-          <div className="p-3 border-b border-slate-800/80 bg-[#07090c] grid grid-cols-12 gap-3">
-            <div className="col-span-12 md:col-span-4">
-              <div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>Instrument</div>
-              <div className="mt-1 flex items-end gap-3">
-                <div className="text-3xl font-semibold tracking-widest text-slate-100">{selected}</div>
-                <div className={`text-xs ${theme.textDim}`}>Binance Spot</div>
-              </div>
-            </div>
-            <div className="col-span-6 md:col-span-2">
-              <div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>Last</div>
-              <div className="text-xl mt-1 text-slate-100">{fmtPx(selectedT?.c)}</div>
-            </div>
-            <div className="col-span-6 md:col-span-2">
-              <div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>24h Chg</div>
-              {(() => {
-                const ch = pct(selectedT?.c, selectedT?.o);
-                const up = ch >= 0;
-                return (
-                  <div className={`text-xl mt-1 ${up ? "text-emerald-300" : "text-rose-300"}`}>
-                    {up ? "+" : ""}{ch.toFixed(2)}%
-                  </div>
-                );
-              })()}
-            </div>
-            <div className="col-span-6 md:col-span-2">
-              <div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>24h High</div>
-              <div className="text-xl mt-1">{fmtPx(selectedT?.h)}</div>
-            </div>
-            <div className="col-span-6 md:col-span-2">
-              <div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>24h Low</div>
-              <div className="text-xl mt-1">{fmtPx(selectedT?.l)}</div>
-            </div>
-            <div className="col-span-12">
-              <div className="mt-2 flex items-center gap-2">
-                <div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>Microtrend</div>
-                <Sparkline points={selectedHist} up={pct(selectedT?.c, selectedT?.o) >= 0} />
-              </div>
-            </div>
-          </div>
-
+          <div className="p-3 border-b border-slate-800/80 bg-[#07090c] grid grid-cols-12 gap-3"><div className="col-span-12 md:col-span-4"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>Instrument</div><div className="mt-1 flex items-end gap-3"><div className="text-3xl font-semibold tracking-widest text-slate-100">{selected}</div><div className={`text-xs ${theme.textDim}`}>Binance Spot</div></div></div><div className="col-span-6 md:col-span-2"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>Last</div><div className="text-xl mt-1 text-slate-100">{fmtPx(selectedT?.c)}</div></div><div className="col-span-6 md:col-span-2"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>24h Chg</div>{(()=>{const ch=pct(selectedT?.c,selectedT?.o);const up=ch>=0;return(<div className={`text-xl mt-1 ${up?"text-emerald-300":"text-rose-300"}`}>{up?"+":""}{ch.toFixed(2)}%</div>);})()}</div><div className="col-span-6 md:col-span-2"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>24h High</div><div className="text-xl mt-1">{fmtPx(selectedT?.h)}</div></div><div className="col-span-6 md:col-span-2"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>24h Low</div><div className="text-xl mt-1">{fmtPx(selectedT?.l)}</div></div><div className="col-span-12"><div className="mt-2 flex items-center gap-2"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>Microtrend</div><Sparkline points={selectedHist} up={pct(selectedT?.c,selectedT?.o)>=0} /></div></div></div>
           {tab === "AI" && (
             <div className="p-3 grid grid-cols-12 gap-3">
               <div className="col-span-12 grid grid-cols-12 gap-3">
@@ -924,51 +876,8 @@ export default function App() {
               </section>
 
               {/* RIGHT COLUMN: Spot + Leverage + Prediction in SAME panel */}
-              <section className={`col-span-12 xl:col-span-6 rounded-xl ${theme.panelSoft} overflow-hidden`}>
-                <div className="px-3 py-2 border-b border-slate-800/80 flex items-center">
-                  <div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>AI Spot Opportunities</div>
-                  <div className="ml-auto text-[10px] text-slate-500">est. swing potential</div>
-                </div>
-                <div className="p-2 space-y-1">
-                  {spotIdeas.map((it, i) => (
-                    <IdeaRow key={it.title + i} {...it} />
-                  ))}
-                  {!spotIdeas.length && <div className="p-6 text-slate-500 text-sm">No spot setups met filters.</div>}
-                </div>
+              <section className={`col-span-12 xl:col-span-6 rounded-xl ${theme.panelSoft} overflow-hidden`}><div className="px-3 py-2 border-b border-slate-800/80 flex items-center"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>AI Spot Opportunities</div><div className="ml-auto text-[10px] text-slate-500">est. swing potential</div></div><div className="p-2 space-y-1">{spotIdeas.map((it,i)=><IdeaRow key={it.title+i} {...it} />)}{!spotIdeas.length&&<div className="p-6 text-slate-500 text-sm">No spot setups met filters.</div>}</div><div className="mt-4 border-t border-slate-800/80"><div className="px-3 py-2 flex items-center"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>AI Leverage Opportunities</div><div className="ml-auto text-[10px] text-slate-500">micro-vol model · not funding-adjusted</div></div><div className="p-2 space-y-1">{leverageIdeas.map((it,i)=><IdeaRow key={it.title+i} {...it} />)}{!leverageIdeas.length&&<div className="p-6 text-slate-500 text-sm">No leverage setups met filters.</div>}</div></div><div className="mt-4 border-t border-slate-800/80"><div className="px-3 py-2 flex items-center"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>AI Prediction (5–10m Horizon)</div><div className="ml-auto text-[10px] text-slate-500">EMA/RSI/vol logistic</div></div><div className="p-2 space-y-1"><div className="text-[10px] uppercase tracking-[0.2em] text-emerald-300/90 px-2">Predicted Longs</div>{predictionIdeas.longs.map((it,i)=><IdeaRow key={it.title+i} {...it} />)}{!predictionIdeas.longs.length&&<div className="p-3 text-slate-500 text-xs">No long signals above 60%.</div>}<div className="mt-2 text-[10px] uppercase tracking-[0.2em] text-rose-300/90 px-2">Predicted Shorts</div>{predictionIdeas.shorts.map((it,i)=><IdeaRow key={it.title+i} {...it} />)}{!predictionIdeas.shorts.length&&<div className="p-3 text-slate-500 text-xs">No short signals below 40%.</div>}</div></div></section>
 
-                <div className="mt-4 border-t border-slate-800/80">
-                  <div className="px-3 py-2 flex items-center">
-                    <div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>AI Leverage Opportunities</div>
-                    <div className="ml-auto text-[10px] text-slate-500">micro-vol model · not funding-adjusted</div>
-                  </div>
-                  <div className="p-2 space-y-1">
-                    {leverageIdeas.map((it, i) => (
-                      <IdeaRow key={it.title + i} {...it} />
-                    ))}
-                    {!leverageIdeas.length && <div className="p-6 text-slate-500 text-sm">No leverage setups met filters.</div>}
-                  </div>
-                </div>
-
-                <div className="mt-4 border-t border-slate-800/80">
-                  <div className="px-3 py-2 flex items-center">
-                    <div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>AI Prediction (5–10m Horizon)</div>
-                    <div className="ml-auto text-[10px] text-slate-500">EMA/RSI/vol logistic</div>
-                  </div>
-                  <div className="p-2 space-y-1">
-                    <div className="text-[10px] uppercase tracking-[0.2em] text-emerald-300/90 px-2">Predicted Longs</div>
-                    {predictionIdeas.longs.map((it, i) => (
-                      <IdeaRow key={it.title + i} {...it} />
-                    ))}
-                    {!predictionIdeas.longs.length && <div className="p-3 text-slate-500 text-xs">No long signals above 60%.</div>}
-
-                    <div className="mt-2 text-[10px] uppercase tracking-[0.2em] text-rose-300/90 px-2">Predicted Shorts</div>
-                    {predictionIdeas.shorts.map((it, i) => (
-                      <IdeaRow key={it.title + i} {...it} />
-                    ))}
-                    {!predictionIdeas.shorts.length && <div className="p-3 text-slate-500 text-xs">No short signals below 40%.</div>}
-                  </div>
-                </div>
-              </section>
 
               <div className="col-span-12 text-[11px] text-slate-500 px-1">
                 AI board uses public spot prices from Binance, Bybit, and OKX. Edges and probabilities are gross estimates before fees, spreads, funding, and execution risk.
@@ -978,61 +887,13 @@ export default function App() {
           )}
 
           {tab === "Market" && (
-            <div className="p-3">
-              <div className={`rounded-xl ${theme.panel} overflow-hidden`}>
-                <div className="px-3 py-2 border-b border-slate-800/80 flex items-center">
-                  <div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>Top 10 Market Table</div>
-                </div>
-                <div className="px-3 py-2 grid grid-cols-12 text-[10px] uppercase tracking-[0.24em] text-slate-400 border-b border-slate-800/80">
-                  <div className="col-span-3">Symbol</div>
-                  <div className="col-span-2">Last</div>
-                  <div className="col-span-2">24h Chg</div>
-                  <div className="col-span-2">Micro Vol</div>
-                  <div className="col-span-1">Slope</div>
-                  <div className="col-span-2 text-right">QVol</div>
-                </div>
-                <div className="divide-y divide-slate-800/60 max-h-[70vh] overflow-y-auto">
-                  {marketRows.map((r) => {
-                    const up = r.change >= 0;
-                    return (
-                      <div
-                        key={r.s}
-                        onClick={() => setSelected(r.s)}
-                        className={`grid grid-cols-12 py-2 px-3 text-sm cursor-pointer hover:bg-slate-900/40 ${selected === r.s ? "bg-slate-900/60" : ""}`}
-                      >
-                        <div className="col-span-3 tracking-wide text-slate-100">{r.s}</div>
-                        <div className="col-span-2 text-slate-200 tabular-nums">{fmtPx(r.last)}</div>
-                        <div className={`col-span-2 tabular-nums ${up ? "text-emerald-300" : "text-rose-300"}`}>{up ? "+" : ""}{r.change.toFixed(2)}%</div>
-                        <div className="col-span-2 text-slate-300 tabular-nums">{r.vol.toFixed(2)}%</div>
-                        <div className={`col-span-1 tabular-nums ${r.slope >= 0 ? "text-emerald-200" : "text-rose-200"}`}>{r.slope.toFixed(1)}%</div>
-                        <div className="col-span-2 text-right text-slate-400 tabular-nums">{fmtNum(r.qvol)}</div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
+<div className="p-3"><div className={`rounded-xl ${theme.panel} overflow-hidden`}><div className="px-3 py-2 border-b border-slate-800/80 flex items-center"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>Top 10 Market Table</div></div><div className="px-3 py-2 grid grid-cols-12 text-[10px] uppercase tracking-[0.24em] text-slate-400 border-b border-slate-800/80"><div className="col-span-3">Symbol</div><div className="col-span-2">Last</div><div className="col-span-2">24h Chg</div><div className="col-span-2">Micro Vol</div><div className="col-span-1">Slope</div><div className="col-span-2 text-right">QVol</div></div><div className="divide-y divide-slate-800/60 max-h-[70vh] overflow-y-auto">{marketRows.map((r)=>{const up=r.change>=0;return(<div key={r.s} onClick={()=>setSelected(r.s)} className={`grid grid-cols-12 py-2 px-3 text-sm cursor-pointer hover:bg-slate-900/40 ${selected===r.s?"bg-slate-900/60":""}`}><div className="col-span-3 tracking-wide text-slate-100">{r.s}</div><div className="col-span-2 text-slate-200 tabular-nums">{fmtPx(r.last)}</div><div className={`col-span-2 tabular-nums ${up?"text-emerald-300":"text-rose-300"}`}>{up?"+":""}{r.change.toFixed(2)}%</div><div className="col-span-2 text-slate-300 tabular-nums">{r.vol.toFixed(2)}%</div><div className={`col-span-1 tabular-nums ${r.slope>=0?"text-emerald-200":"text-rose-200"}`}>{r.slope.toFixed(1)}%</div><div className="col-span-2 text-right text-slate-400 tabular-nums">{fmtNum(r.qvol)}</div></div>);})}</div></div></div>
+
           )}
 
           {tab === "Chart" && (
-            <div className="p-3 grid grid-cols-12 gap-3">
-              <section className={`col-span-12 rounded-xl ${theme.panel} overflow-hidden`}>
-                <div className="px-3 py-2 border-b border-slate-800/80 flex items-center gap-3">
-                  <div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>Price Chart</div>
-                  <div className="ml-auto flex items-center gap-1">
-                    {TF_OPTIONS.map((o) => (
-                      <Pill key={o.k} active={tf === o.k} onClick={() => setTf(o.k)}>
-                        {o.label}
-                      </Pill>
-                    ))}
-                  </div>
-                </div>
-                <div className="p-2">
-                  {chartStatus === "loading" && <div className="text-slate-500 text-sm p-6">Loading chart…</div>}
-                  {chartStatus !== "loading" && <Candles candles={candles} />}
-                </div>
-              </section>
-            </div>
+<div className="p-3 grid grid-cols-12 gap-3"><section className={`col-span-12 rounded-xl ${theme.panel} overflow-hidden`}><div className="px-3 py-2 border-b border-slate-800/80 flex items-center gap-3"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>Price Chart</div><div className="ml-auto flex items-center gap-1">{TF_OPTIONS.map((o)=><Pill key={o.k} active={tf===o.k} onClick={()=>setTf(o.k)}>{o.label}</Pill>)}</div></div><div className="p-2">{chartStatus==="loading"&&<div className="text-slate-500 text-sm p-6">Loading chart…</div>}{chartStatus!=="loading"&&<Candles candles={candles}/>}</div></section></div>
+
           )}
 
           <div className="border-t border-slate-800/80 bg-[#06080b] px-3 py-2 text-[11px] text-slate-500 flex items-center gap-3">
@@ -1042,13 +903,6 @@ export default function App() {
           </div>
         </main>
       </div>
-
-      {/*
-        NOTES:
-        - Cross-exchange arb uses mid prices and ignores transfer latency.
-        - Prediction model is a lightweight logistic blend of EMA cross + RSI + slope + vol.
-        - If symbols missing on Bybit/OKX, they will be skipped.
-      */}
     </div>
   );
 }
