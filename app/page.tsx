@@ -764,7 +764,7 @@ export default function App() {
       <div className="sticky top-0 z-20 border-b border-slate-800/80 bg-[#06080b]">
         <div className="px-4 py-0 flex items-center gap-3">
           <div className="text-slate-100 font-semibold tracking-[0.2em] text-sm">
-            <img src="https://corporate.stankeviciusgroup.com/assets/sl.png" width={200} alt="logo" />
+            <img src="https://corporate.stankeviciusgroup.com/assets/ll.jpg" width={50} alt="logo" />
           </div>
           {/* <div className={`text-[11px] uppercase ${theme.textDim} tracking-[0.25em]`}>AI Insights</div> */}
           <div className="ml-auto flex items-center gap-4 text-[11px]">
@@ -822,10 +822,7 @@ export default function App() {
               <section className={`col-span-12 xl:col-span-6 rounded-xl ${theme.panelSoft} overflow-hidden`}><div className="px-3 py-2 border-b border-slate-800/80 flex items-center"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>AI Spot Opportunities</div><div className="ml-auto text-[10px] text-slate-500">est. swing potential</div></div><div className="p-2 space-y-1">{spotIdeas.map((it,i)=><IdeaRow key={it.title+i} {...it} />)}{!spotIdeas.length&&<div className="p-6 text-slate-500 text-sm">No spot setups met filters.</div>}</div><div className="mt-4 border-t border-slate-800/80"><div className="px-3 py-2 flex items-center"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>AI Leverage Opportunities</div><div className="ml-auto text-[10px] text-slate-500">micro-vol model · not funding-adjusted</div></div><div className="p-2 space-y-1">{leverageIdeas.map((it,i)=><IdeaRow key={it.title+i} {...it} />)}{!leverageIdeas.length&&<div className="p-6 text-slate-500 text-sm">No leverage setups met filters.</div>}</div></div><div className="mt-4 border-t border-slate-800/80"><div className="px-3 py-2 flex items-center"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>AI Prediction (5–10m Horizon)</div><div className="ml-auto text-[10px] text-slate-500">EMA/RSI/vol logistic</div></div><div className="p-2 space-y-1"><div className="text-[10px] uppercase tracking-[0.2em] text-emerald-300/90 px-2">Predicted Longs</div>{predictionIdeas.longs.map((it,i)=><IdeaRow key={it.title+i} {...it} />)}{!predictionIdeas.longs.length&&<div className="p-3 text-slate-500 text-xs">No long signals above 60%.</div>}<div className="mt-2 text-[10px] uppercase tracking-[0.2em] text-rose-300/90 px-2">Predicted Shorts</div>{predictionIdeas.shorts.map((it,i)=><IdeaRow key={it.title+i} {...it} />)}{!predictionIdeas.shorts.length&&<div className="p-3 text-slate-500 text-xs">No short signals below 40%.</div>}</div></div></section>
 
 
-              <div className="col-span-12 text-[11px] text-slate-500 px-1">
-                AI uses public spot prices from Binance, Bybit, and OKX. Edges and probabilities are gross estimates before fees, spreads, funding, and execution risk.
-                Treat as a scanning assistant, not financial advice.
-              </div>
+              
             </div>
           )}
 
@@ -838,11 +835,19 @@ export default function App() {
 <div className="p-3 grid grid-cols-12 gap-3"><section className={`col-span-12 rounded-xl ${theme.panel} overflow-hidden`}><div className="px-3 py-2 border-b border-slate-800/80 flex items-center gap-3"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>Price Chart</div><div className="ml-auto flex items-center gap-1">{TF_OPTIONS.map((o)=><Pill key={o.k} active={tf===o.k} onClick={()=>setTf(o.k)}>{o.label}</Pill>)}</div></div><div className="p-2">{chartStatus==="loading"&&<div className="text-slate-500 text-sm p-6">Loading chart…</div>}{chartStatus!=="loading"&&<Candles candles={candles}/>}</div></section></div>
 
           )}
+          <div className="border-t border-slate-800/80 bg-[#06080b] px-3 py-2 text-[11px] text-slate-500 flex items-center gap-3">
+            <div>                Stankevicius.com AI uses public spot prices from Binance, Bybit, and OKX. Edges and probabilities are gross estimates before fees, spreads, funding, and execution risk.
+                Treat as a scanning assistant, not financial advice.</div>
+
+          </div>
 
           <div className="border-t border-slate-800/80 bg-[#06080b] px-3 py-2 text-[11px] text-slate-500 flex items-center gap-3">
             <div>Data: Binance, Bybit, OKX public spot feeds</div>
             <div>Universe refresh: 60s</div>
             <div className="ml-auto">Local time: {localTime || "—"}</div>
+          </div>
+            <div className="border-t border-slate-800/80 bg-[#06080b] px-3 py-2 text-[11px] text-slate-500 flex items-center gap-3">
+            <div>© Stankevicius.com does not provide services.</div>
           </div>
         </main>
       </div>
