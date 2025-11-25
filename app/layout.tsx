@@ -1,18 +1,4 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
+export const metadata = {
   title: "Stankevicius.com AI Market Insights",
   description:
     "AI generated trade insights for tri-arbitrage and leverage positions.",
@@ -24,9 +10,22 @@ export const metadata: Metadata = {
     "ai leverage trading",
     "ai trading recommendations",
   ],
+
   icons: {
-    icon: "logo.jpg",
+    icon: {
+      url: "https://corporate.stankeviciusgroup.com/assets/ll.jpg",
+      type: "image/jpeg",
+    },
+    apple: {
+      url: "https://corporate.stankeviciusgroup.com/assets/ll.jpg",
+      type: "image/jpeg",
+    },
+    shortcut: {
+      url: "https://corporate.stankeviciusgroup.com/assets/ll.jpg",
+      type: "image/jpeg",
+    },
   },
+
   openGraph: {
     title: "Stankevicius.com AI Market Insights",
     description:
@@ -42,6 +41,7 @@ export const metadata: Metadata = {
     ],
     type: "website",
   },
+
   twitter: {
     card: "summary_large_image",
     title: "Stankevicius.com AI Market Insights",
@@ -50,19 +50,3 @@ export const metadata: Metadata = {
     images: ["https://corporate.stankeviciusgroup.com/assets/thumbss.png"],
   },
 };
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
-  );
-}
