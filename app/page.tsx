@@ -762,11 +762,11 @@ export default function App() {
     <div className={`min-h-screen ${theme.bg} text-slate-100 font-[ui-monospace,system-ui] tracking-[0.01em]`}>
       {/* Top bar */}
       <div className="sticky top-0 z-20 border-b border-slate-800/80 bg-[#06080b]">
-        <div className="px-4 py-3 flex items-center gap-3">
+        <div className="px-4 py-0 flex items-center gap-3">
           <div className="text-slate-100 font-semibold tracking-[0.2em] text-sm">
-            <img src="https://corporate.stankeviciusgroup.com/assets/rf/logo.png" width={50} alt="logo" />
+            <img src="https://corporate.stankeviciusgroup.com/assets/sl.png" width={200} alt="logo" />
           </div>
-          <div className={`text-[11px] uppercase ${theme.textDim} tracking-[0.25em]`}>AI Insights</div>
+          {/* <div className={`text-[11px] uppercase ${theme.textDim} tracking-[0.25em]`}>AI Insights</div> */}
           <div className="ml-auto flex items-center gap-4 text-[11px]">
             <div className="flex items-center gap-2">
               <div className={`h-2 w-2 rounded-full ${status === "live" ? "bg-emerald-400" : status === "reconnecting" ? "bg-amber-400" : status === "error" ? "bg-rose-400" : "bg-slate-500"}`} />
@@ -778,72 +778,15 @@ export default function App() {
       </div>
 
       {/* Tabs */}
-      <div className="px-3 py-2 border-b border-slate-800/70 bg-[#07090c] flex items-center gap-2 text-xs">
-        {[
-  { k: "AI" as const, label: "AI Board" },
-  { k: "Market" as const, label: "Top 100 Market" },
-  { k: "Chart" as const, label: "Chart" },
-]
-.map((t) => (
-          <Pill key={t.k} active={tab === t.k} onClick={() => setTab(t.k)}>
-            {t.label}
-          </Pill>
-        ))}
-        <div className="ml-auto flex items-center gap-2">
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Filter symbols…"
-            className="w-[220px] bg-black/40 border border-slate-700 rounded-md px-2 py-1 text-xs outline-none focus:border-sky-400/70"
-          />
-          <div className="text-[11px] text-slate-500">Pairs: {symbols.length}</div>
-        </div>
-      </div>
 
-      <div className="grid grid-cols-12 gap-0">
+
+      <div className="grid grid-cols-0 gap-0">
         {/* Left list */}
-        <aside className="col-span-3 xl:col-span-2 border-r border-slate-800/80 bg-[#06070a] min-h-[calc(100vh-92px)] overflow-y-auto">
-          <div className="p-3 border-b border-slate-800/80">
-            <div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em] mb-1`}>Top 10 (USDT)</div>
-            <div className="text-[11px] text-slate-500">Sorted by quote volume</div>
-          </div>
-
-          <div className="divide-y divide-slate-800/70">
-            {filteredSymbols.map((s, idx) => {
-              const t = tickers[s];
-              const last = t?.c;
-              const open = t?.o;
-              const ch = pct(last, open);
-              const up = ch >= 0;
-              const bgTone = selected === s ? "bg-slate-900/80" : up ? "bg-emerald-500/12" : "bg-rose-500/12";
-              const borderTone = up ? "border-emerald-500/30" : "border-rose-500/30";
-
-              return (
-                <button
-                  key={s}
-                  onClick={() => setSelected(s)}
-                  className={`w-full text-left px-3 py-2 hover:bg-slate-900/60 transition border-l-2 ${bgTone} ${borderTone}`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm tracking-wide">{idx + 1}. {s}</div>
-                    <div className={`text-xs ${up ? "text-emerald-300" : "text-rose-300"}`}>{up ? "+" : ""}{ch.toFixed(2)}%</div>
-                  </div>
-                  <div className="flex items-center justify-between mt-1">
-                    <div className="text-[12px] text-slate-200">{fmtPx(last)}</div>
-                    <div className="text-[10px] text-slate-500">QVol {fmtNum(t?.q)}</div>
-                  </div>
-                  <div className="mt-1"><Sparkline points={history[s] || []} up={up} /></div>
-                </button>
-              );
-            })}
-            {!filteredSymbols.length && <div className="p-4 text-slate-500 text-sm">No matches.</div>}
-          </div>
-        </aside>
+      
 
         {/* Main */}
         <main className="col-span-9 xl:col-span-10">
           {/* Selected header */}
-          <div className="p-3 border-b border-slate-800/80 bg-[#07090c] grid grid-cols-12 gap-3"><div className="col-span-12 md:col-span-4"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>Instrument</div><div className="mt-1 flex items-end gap-3"><div className="text-3xl font-semibold tracking-widest text-slate-100">{selected}</div><div className={`text-xs ${theme.textDim}`}>Binance Spot</div></div></div><div className="col-span-6 md:col-span-2"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>Last</div><div className="text-xl mt-1 text-slate-100">{fmtPx(selectedT?.c)}</div></div><div className="col-span-6 md:col-span-2"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>24h Chg</div>{(()=>{const ch=pct(selectedT?.c,selectedT?.o);const up=ch>=0;return(<div className={`text-xl mt-1 ${up?"text-emerald-300":"text-rose-300"}`}>{up?"+":""}{ch.toFixed(2)}%</div>);})()}</div><div className="col-span-6 md:col-span-2"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>24h High</div><div className="text-xl mt-1">{fmtPx(selectedT?.h)}</div></div><div className="col-span-6 md:col-span-2"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>24h Low</div><div className="text-xl mt-1">{fmtPx(selectedT?.l)}</div></div><div className="col-span-12"><div className="mt-2 flex items-center gap-2"><div className={`text-[10px] ${theme.textDim} uppercase tracking-[0.24em]`}>Microtrend</div><Sparkline points={selectedHist} up={pct(selectedT?.c,selectedT?.o)>=0} /></div></div></div>
           {tab === "AI" && (
             <div className="p-3 grid grid-cols-12 gap-3">
               <div className="col-span-12 grid grid-cols-12 gap-3">
@@ -880,7 +823,7 @@ export default function App() {
 
 
               <div className="col-span-12 text-[11px] text-slate-500 px-1">
-                AI board uses public spot prices from Binance, Bybit, and OKX. Edges and probabilities are gross estimates before fees, spreads, funding, and execution risk.
+                AI uses public spot prices from Binance, Bybit, and OKX. Edges and probabilities are gross estimates before fees, spreads, funding, and execution risk.
                 Treat as a scanning assistant, not financial advice.
               </div>
             </div>
