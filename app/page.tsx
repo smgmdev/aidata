@@ -847,7 +847,7 @@ export default function App() {
             <div className="ml-auto">Local time: {localTime || "—"}</div>
           </div>
             <div className="border-t border-slate-800/80 bg-[#06080b] px-3 py-2 text-[11px] text-slate-500 flex items-center gap-3">
-            <div>© Stankevicius.com does not provide services.</div>
+            <div>© Stankevicius.com does not provide services to clients.</div>
           </div>
         </main>
       </div>
