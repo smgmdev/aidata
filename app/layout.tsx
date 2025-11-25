@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "ai trading recommendations",
   ],
   icons: {
-    icon: "https://corporate.stankeviciusgroup.com/assets/ll.jpg",
+    icon: "logo.jpg",
   },
   openGraph: {
     title: "Stankevicius.com AI Market Insights",
