@@ -9,7 +9,7 @@ const BYBIT_WS = "wss://stream.bybit.com/v5/public/spot";
 const OKX_REST = "https://www.okx.com";
 const OKX_WS = "wss://ws.okx.com:8443/ws/v5/public";
 
-const TOP_N = 10;
+const TOP_N = 100;
 const MINI_HISTORY = 60; // for microtrend & vol proxy
 const TRI_MAX = 10; // show top N arb opportunities
 const IDEAS_MAX = 8;
@@ -781,7 +781,7 @@ export default function App() {
       <div className="px-3 py-2 border-b border-slate-800/70 bg-[#07090c] flex items-center gap-2 text-xs">
         {[
   { k: "AI" as const, label: "AI Board" },
-  { k: "Market" as const, label: "Top 10 Market" },
+  { k: "Market" as const, label: "Top 100 Market" },
   { k: "Chart" as const, label: "Chart" },
 ]
 .map((t) => (
